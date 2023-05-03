@@ -1,0 +1,11 @@
+# Ignore Visual Code settings for now
+.vscode
+
+# Local History for Visual Studio Code
+.history
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+# Mac
+.DS_Store

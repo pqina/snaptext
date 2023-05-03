@@ -1,0 +1,17 @@
+{
+    "name": "@pqina/snaptext",
+    "version": "0.0.1",
+    "description": "Snap a picture of HTML text",
+    "homepage": "https://github.com/pqina/snaptext",
+    "main": "snapText.js",
+    "browser": "snapText.js",
+    "module": "snapText.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": {
+        "name": "PQINA",
+        "url": "https://pqina.nl/"
+    },
+    "license": "MIT"
+}
