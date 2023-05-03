@@ -2,18 +2,20 @@
 
 **📸 Snap a picture of HTML text**
 
+Converts HTML text to an SVG, Image, Blob, or a Canvas element.
+
 For a demo see the "snap picture" buttons at the top of code examples on [PQINA.nl](https://pqina.nl/blog/upload-image-with-nodejs/)
 
 ```html
 <script type="module">
-// Import the module
-import snapText from './snapText.js';
+    // Import the module
+    import snapText from './snapText.js';
 
-// Snap a picture of some text
-const canvas = await snapText('pre.language-html');
+    // Snap a picture of some text
+    const canvas = await snapText('pre.language-html');
 
-// Add picture to body for viewing
-document.body.append(canvas);
+    // Add picture to body for viewing
+    document.body.append(canvas);
 </script>
 ```
 
@@ -29,21 +31,21 @@ const svg = await snapText('.my-element');
 
 // Customize options (shows defaults)
 const svg = await snapText('.my-element', {
-   // The output format, set to 'svg', 'canvas', 'img', or 'blob'
-   format: 'svg',
-   
-   // The output width in pixels (can set `width`, or `height`, or both)
-   width: undefined,
-   
-   // The output height in pixels (can set `width`, or `height`, or both)
-   height: undefined,
-   
-   // Padding in pixels around the output, added to the inside when `width` or `height` is set
-   padding: 0,
-   
-   // Size multiplier in pixels
-   scalar: 1
-})
+    // The output format, set to 'svg', 'canvas', 'img', or 'blob'
+    format: 'svg',
+
+    // The output width in pixels (can set `width`, or `height`, or both)
+    width: undefined,
+
+    // The output height in pixels (can set `width`, or `height`, or both)
+    height: undefined,
+
+    // Padding in pixels around the output, added to the inside when `width` or `height` is set
+    padding: 0,
+
+    // Size multiplier in pixels
+    scalar: 1,
+});
 ```
 
 Example:
