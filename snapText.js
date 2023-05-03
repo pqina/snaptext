@@ -16,7 +16,7 @@
 
 /**
  * @param { string | Element } querySelectorOrNode
- * @param { { format?: 'svg' | 'canvas' | 'img' | 'blob', width?: number, height?: number, padding?: number } } options
+ * @param { { format?: 'svg' | 'canvas' | 'img' | 'blob', width?: number, height?: number, padding?: number, scalar?: number } } options
  */
 export default async (querySelectorOrNode, options = {}) => {
     // validate input
@@ -34,7 +34,7 @@ export default async (querySelectorOrNode, options = {}) => {
     }
 
     // get options
-    const { format = 'canvas', padding = 0, width, height } = options;
+    const { format = 'canvas', padding = 0, scalar = 1, width, height } = options;
 
     // invalid format supplied
     if (!/canvas|img|svg|blob/.test(format)) throw `Invalid format "${format}"`;
@@ -43,7 +43,7 @@ export default async (querySelectorOrNode, options = {}) => {
     const shapes = normalizeShapes(getShapes(element, element.getBoundingClientRect()));
 
     // create svg
-    const svg = shapesToSvg(shapes, { width, height, padding });
+    const svg = shapesToSvg(shapes, { width, height, padding, scalar });
     if (format === 'svg')
         return new DOMParser().parseFromString(svg, 'image/svg+xml').documentElement;
 
@@ -161,7 +161,7 @@ function getTextShapes(textNode) {
 /**
  * Returns text node into line objects
  * @param { Text } textNode
- * @returns { { text: string, rect: { x:number, y:number, width:number, height:number} }[] }
+ * @returns { { text: string, rect: { x:number, y:number, width:number, height:number } }[] }
  */
 const getTextNodeLines = (textNode) => {
     const text = textNode.nodeValue;
@@ -276,10 +276,10 @@ const svgToBlob = (svg) => new Blob([svg], { type: 'image/svg+xml;charset=utf-8'
 /**
  * Converst shapes array to SVG string
  * @param { Shape[] } shapes
- * @param { { width?: number, height?: number, padding: number }} options
+ * @param { { width?: number, height?: number, padding: number, scalar: number }} options
  * @returns { string }
  */
-function shapesToSvg(shapes, { width, height, padding }) {
+function shapesToSvg(shapes, { width, height, padding, scalar }) {
     // calculate size
     const contentSize = getSizeFromShapes(shapes);
 
@@ -290,25 +290,25 @@ function shapesToSvg(shapes, { width, height, padding }) {
     const paddingDouble = padding * 2;
 
     // if width/height defined -> calculate output size
-    let scalar = 1;
+    let contentScalar = 1;
     if (typeof width === 'number' || typeof height === 'number') {
         const aspectRatio = contentSize.width / contentSize.height;
 
         // expand height
         if (width && !height) {
             height = (width - paddingDouble) / aspectRatio + paddingDouble;
-            scalar = Math.min((width - paddingDouble) / contentSize.width);
+            contentScalar = Math.min((width - paddingDouble) / contentSize.width);
         }
 
         // expand width
         else if (height && !width) {
             width = (height - paddingDouble) * aspectRatio + paddingDouble;
-            scalar = Math.min((height - paddingDouble) / contentSize.height);
+            contentScalar = Math.min((height - paddingDouble) / contentSize.height);
         }
 
         // both -> center
         else if (width && height) {
-            scalar = Math.min(
+            contentScalar = Math.min(
                 (height - paddingDouble) / contentSize.height,
                 (width - paddingDouble) / contentSize.width
             );
@@ -353,10 +353,12 @@ function shapesToSvg(shapes, { width, height, padding }) {
         }, /** @type{ string[]}*/ ([]))
         .join('\n');
 
-    const x = width ? (contentSize.width * scalar - width) * 0.5 + padding : 0;
-    const y = height ? (contentSize.height * scalar - height) * 0.5 + padding : 0;
+    const x = (contentSize.width * contentScalar - /** @type{number}*/ (width)) * 0.5 + padding;
+    const y = (contentSize.height * contentScalar - /** @type{number}*/ (height)) * 0.5 + padding;
 
-    return `<svg width="${width}" height="${height}" viewBox="${x} ${y} ${width} ${height}" xmlns="http://www.w3.org/2000/svg"><style>${styleText}</style><g transform="translate(${padding} ${padding}) scale(${scalar})">${textNodes}</g></svg>`;
+    return `<svg width="${/** @type{number}*/ (width) * scalar}" height="${
+        /** @type{number}*/ (height) * scalar
+    }" viewBox="${x} ${y} ${width} ${height}" xmlns="http://www.w3.org/2000/svg"><style>${styleText}</style><g transform="translate(${padding} ${padding}) scale(${contentScalar})">${textNodes}</g></svg>`;
 }
 
 /**

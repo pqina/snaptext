@@ -21,10 +21,11 @@ I've only tested this on desktop Chrome, Firefox, and Safri with text inside a `
 
 Pass either an `Element` or querySelector `string` as the first argument, the second argument is an options object.
 
+-   `format` of the output, either `'svg'`, `'canvas'`, `'img'`, or `'blob'`
 -   `width` of the output in pixels (optional)
 -   `height` of the output in pixels (optional)
 -   `padding` in pixels around the output
--   `format` of the output, either `'svg'`, `'canvas'`, `'img'`, or `'blob'`
+-   `scalar` of the output as a multiplier
 
 Example:
 
