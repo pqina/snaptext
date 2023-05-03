@@ -1,17 +1,28 @@
 {
+    "type": "module",
     "name": "@pqina/snaptext",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Snap a picture of HTML text",
-    "homepage": "https://github.com/pqina/snaptext",
+    "keywords": [
+        "html to image",
+        "text to image",
+        "text to svg",
+        "text to canvas"
+    ],
+    "homepage": "https://github.com/pqina/snaptext#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pqina/snapkit.git"
+    },
+    "bugs": {
+        "url": "https://github.com/pqina/snaptext/issues"
+    },
     "main": "snapText.js",
     "browser": "snapText.js",
     "module": "snapText.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
+    "license": "MIT",
     "author": {
         "name": "PQINA",
         "url": "https://pqina.nl/"
-    },
-    "license": "MIT"
+    }
 }
