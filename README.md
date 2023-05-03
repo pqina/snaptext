@@ -6,14 +6,14 @@ For a demo see the "snap picture" buttons at the top of code examples on [PQINA.
 
 ```html
 <script type="module">
-    // Import the module
-    import snapText from './snapText.js';
+// Import the module
+import snapText from './snapText.js';
 
-    // Snap a picture of some text
-    const canvas = await snapText('pre.language-html');
+// Snap a picture of some text
+const canvas = await snapText('pre.language-html');
 
-    // Add picture to body for viewing
-    document.body.append(canvas);
+// Add picture to body for viewing
+document.body.append(canvas);
 </script>
 ```
 
